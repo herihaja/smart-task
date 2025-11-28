@@ -4,25 +4,38 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Requests\StoreTaskRequest;
+use App\Http\Requests\TaskIndexRequest;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
+use App\Services\TaskFilterService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
     use AuthorizesRequests;
 
     // List tasks (ordered by smart score DESC)
-    public function index(Request $request)
+    public function index(TaskIndexRequest $request, TaskFilterService $filterService)
     {
-        $tasks = $request->user()
-            ->tasks()
-            ->orderByDesc('score')
-            ->orderBy('due_date')
-            ->get();
+        $filters = $request->filters();
 
-        return TaskResource::collection($tasks);
+        $query = $filterService->apply($request->user(), $filters)
+            ->orderByDesc('score')
+            ->orderBy('due_date');
+
+        $paginated = $query->paginate(
+            $request->get('per_page', 5),
+            ['*'],
+            'page',
+            $request->get('page', 1)
+        );
+
+        return [
+            'data' => TaskResource::collection($paginated),
+            'total' => $paginated->total(),
+            'per_page' => $paginated->perPage(),
+            'current_page' => $paginated->currentPage(),
+        ];
     }
 
     /**

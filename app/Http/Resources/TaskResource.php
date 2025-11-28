@@ -21,6 +21,7 @@ class TaskResource extends JsonResource
             'urgency'    => $this->urgency,
             'impact'     => $this->impact,
             'score'      => $this->score,
+            'effort'      => $this->effort,
             'due_date'   => $this->due_date?->toISOString(),
             'completed'  => $this->completed,
             'created_at' => $this->created_at,

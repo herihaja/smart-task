@@ -31,6 +31,17 @@ services:
     networks:
       - smart-network
 
+  vite:
+    image: node:20
+    command: npm run dev
+    ports:
+      - "5173:5173"
+    volumes:
+      - .:/var/www/html
+    working_dir: /var/www/html
+    networks:
+      - smart-network
+
   nginx:
     image: nginx:latest
     container_name: smart-task-nginx
@@ -42,6 +53,7 @@ services:
       - .:/var/www
     depends_on:
       - app
+      - vite
     networks:
       - smart-network
 
