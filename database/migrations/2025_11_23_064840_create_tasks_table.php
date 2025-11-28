@@ -17,12 +17,12 @@ return new class extends Migration
             $table->string('title');
             $table->text('description')->nullable();
             $table->enum('urgency', ['low', 'medium', 'high'])->default('medium');
-            
+
             $table->enum('impact', ['low', 'medium', 'high'])->default('medium');
             $table->enum('effort', ['low', 'medium', 'high'])->default('medium');
-            
+
             $table->integer('score')->default(0);
-            
+
             $table->date('due_date')->nullable();
             $table->boolean('completed')->default(false);
             $table->timestamps();

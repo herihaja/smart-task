@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
-use Inertia\Inertia;
-use App\Models\Task;
 use App\Http\Resources\TaskResource;
+use App\Models\Task;
+use Inertia\Inertia;
 
 class TaskController extends Controller
 {

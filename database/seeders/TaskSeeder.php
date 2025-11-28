@@ -2,10 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
-use App\Models\User;
 use App\Models\Task;
+use App\Models\User;
+use Illuminate\Database\Seeder;
 
 class TaskSeeder extends Seeder
 {
@@ -17,11 +16,11 @@ class TaskSeeder extends Seeder
         $user = User::first() ?? User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
-            'password' => bcrypt('password')
+            'password' => bcrypt('password'),
         ]);
 
         Task::factory()->count(10)->create([
-            'user_id' => $user->id
+            'user_id' => $user->id,
         ]);
     }
 }

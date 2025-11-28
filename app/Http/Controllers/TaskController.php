@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\TaskIndexRequest;
+use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
 use App\Services\TaskFilterService;
@@ -45,7 +45,7 @@ class TaskController extends Controller
     public function store(StoreTaskRequest $request)
     {
         $data = $request->validated();
-        
+
         $data['user_id'] = $request->user()->id;
 
         $data['score'] = $this->computeScore(
@@ -80,13 +80,13 @@ class TaskController extends Controller
 
         // Recompute only if one of the scoring fields changed
         if (
-            isset($data['urgency']) || 
-            isset($data['impact']) || 
+            isset($data['urgency']) ||
+            isset($data['impact']) ||
             isset($data['effort'])
         ) {
             $urgency = $data['urgency'] ?? $task->urgency;
-            $impact  = $data['impact']  ?? $task->impact;
-            $effort  = $data['effort']  ?? $task->effort;
+            $impact = $data['impact'] ?? $task->impact;
+            $effort = $data['effort'] ?? $task->effort;
 
             $data['score'] = $this->computeScore($urgency, $impact, $effort);
         }
@@ -112,9 +112,9 @@ class TaskController extends Controller
     {
         $map = ['low' => 1, 'medium' => 2, 'high' => 3];
 
-        return 
-            ($map[$urgency] * 2) + 
-            ($map[$impact] * 3) + 
+        return
+            ($map[$urgency] * 2) +
+            ($map[$impact] * 3) +
             ((4 - $map[$effort]) * 2);
     }
 }

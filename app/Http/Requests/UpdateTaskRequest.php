@@ -22,13 +22,13 @@ class UpdateTaskRequest extends FormRequest
     public function rules()
     {
         return [
-            'title'       => 'sometimes|string|max:255',
+            'title' => 'sometimes|string|max:255',
             'description' => 'sometimes|nullable|string',
-            'urgency'     => 'sometimes|in:low,medium,high',
-            'impact'      => 'sometimes|in:low,medium,high',
-            'effort'      => 'sometimes|in:low,medium,high',
-            'due_date'    => 'sometimes|nullable|date',
-            'completed'   => 'sometimes|boolean',
+            'urgency' => 'sometimes|in:low,medium,high',
+            'impact' => 'sometimes|in:low,medium,high',
+            'effort' => 'sometimes|in:low,medium,high',
+            'due_date' => 'sometimes|nullable|date',
+            'completed' => 'sometimes|boolean',
         ];
     }
 }

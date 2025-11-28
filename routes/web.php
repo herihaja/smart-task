@@ -1,8 +1,8 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TaskController as ApiTaskController;
 use App\Http\Controllers\Web\TaskController;
-use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -32,13 +32,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/tasks/{task}/edit', [TaskController::class, 'edit']);
 });
 
-
 Route::middleware(['auth'])->get('/api/debug-auth', function (\Illuminate\Http\Request $request) {
     return response()->json([
-        'bearer'     => $request->bearerToken(),
+        'bearer' => $request->bearerToken(),
         'session_id' => $request->session()->getId(),
-        'cookies'    => $request->cookies->all(),
-        'user'       => $request->user()?->only('id', 'email'),
+        'cookies' => $request->cookies->all(),
+        'user' => $request->user()?->only('id', 'email'),
     ]);
 });
 
