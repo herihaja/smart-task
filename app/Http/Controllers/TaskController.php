@@ -21,7 +21,8 @@ class TaskController extends Controller
 
         $query = $filterService->apply($request->user(), $filters)
             ->orderByDesc('score')
-            ->orderBy('due_date');
+            ->orderBy('due_date')
+            ->orderByDesc('id');
 
         $paginated = $query->paginate(
             $request->get('per_page', 5),

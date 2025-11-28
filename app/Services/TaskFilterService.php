@@ -21,6 +21,21 @@ class TaskFilterService
             });
         }
 
+        if (!empty($filters['urgency'])) {
+            $urgency = $filters['urgency'];
+            $query->where('urgency', $urgency);
+        }
+
+        if (!empty($filters['effort'])) {
+            $effort = $filters['effort'];
+            $query->where('effort', $effort);
+        }
+
+        if (!empty($filters['impact'])) {
+            $impact = $filters['impact'];
+            $query->where('impact', $impact);
+        }
+
         return $query;
     }
 }
