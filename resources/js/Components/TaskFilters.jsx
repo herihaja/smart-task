@@ -1,22 +1,23 @@
-import React from "react";
+import React from "react"
 
 const TaskFilters = ({ filters, setFilters }) => {
   const handleChange = (key, value) => {
-    setFilters(prev => ({ ...prev, [key]: value }));
-  };
+    setFilters((prev) => ({ ...prev, [key]: value }))
+  }
 
-  const inputClass = "peer block w-full px-3 pt-5 pb-2 border rounded-md text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500";
-  const labelClass = "absolute left-3 top-2.5 text-gray-400 text-sm transition-all peer-placeholder-shown:top-5 peer-placeholder-shown:text-gray-400 peer-placeholder-shown:text-base peer-focus:top-2.5 peer-focus:text-sm peer-focus:text-blue-500";
+  const inputClass =
+    "peer block w-full px-3 pt-5 pb-2 border rounded-md text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+  const labelClass =
+    "absolute left-3 top-2.5 text-gray-400 text-sm transition-all peer-placeholder-shown:top-5 peer-placeholder-shown:text-gray-400 peer-placeholder-shown:text-base peer-focus:top-2.5 peer-focus:text-sm peer-focus:text-blue-500"
 
   return (
     <div className="mb-4 p-4 bg-white border rounded flex flex-wrap gap-4 items-end">
-
       {/* Search */}
       <div className="relative w-64">
         <input
           type="text"
           value={filters.search}
-          onChange={e => handleChange("search", e.target.value)}
+          onChange={(e) => handleChange("search", e.target.value)}
           placeholder=" "
           className={inputClass}
         />
@@ -27,7 +28,7 @@ const TaskFilters = ({ filters, setFilters }) => {
       <div className="relative w-36">
         <select
           value={filters.urgency}
-          onChange={e => handleChange("urgency", e.target.value)}
+          onChange={(e) => handleChange("urgency", e.target.value)}
           className={inputClass + " bg-white appearance-none"}
         >
           <option value=""></option>
@@ -42,7 +43,7 @@ const TaskFilters = ({ filters, setFilters }) => {
       <div className="relative w-36">
         <select
           value={filters.impact}
-          onChange={e => handleChange("impact", e.target.value)}
+          onChange={(e) => handleChange("impact", e.target.value)}
           className={inputClass + " bg-white appearance-none"}
         >
           <option value=""></option>
@@ -57,7 +58,7 @@ const TaskFilters = ({ filters, setFilters }) => {
       <div className="relative w-36">
         <select
           value={filters.effort}
-          onChange={e => handleChange("effort", e.target.value)}
+          onChange={(e) => handleChange("effort", e.target.value)}
           className={inputClass + " bg-white appearance-none"}
         >
           <option value=""></option>
@@ -75,9 +76,8 @@ const TaskFilters = ({ filters, setFilters }) => {
       >
         Reset
       </button>
-
     </div>
-  );
-};
+  )
+}
 
-export default TaskFilters;
+export default TaskFilters

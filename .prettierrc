@@ -1,0 +1,11 @@
+{
+  "tabWidth": 2,
+  "useTabs": false,
+  "semi": false,                // add semicolons
+  "singleQuote": true,
+  "trailingComma": "all",
+  "printWidth": 100,           // max line length
+  "jsxSingleQuote": false,
+  "bracketSpacing": true,
+  "arrowParens": "always"
+}
