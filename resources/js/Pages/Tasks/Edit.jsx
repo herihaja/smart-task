@@ -7,7 +7,6 @@ import { useToast } from "@/Components/ToastProvider"
 
 export default function Edit({ task }) {
   const { errors } = usePage().props
-  const [toast, setToast] = useState(null)
   const { showToast } = useToast()
 
   const handleSubmit = (data) => {

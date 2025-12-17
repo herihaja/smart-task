@@ -2,19 +2,17 @@ import { Head, router, usePage } from "@inertiajs/react"
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout"
 import TaskForm from "./TaskForm"
 import api from "@/axios"
-import { useState } from "react"
+import { useToast } from "@/Components/ToastProvider"
 
 export default function Create() {
   const { errors } = usePage().props
-  const [toast, setToast] = useState(null)
+  const { showToast } = useToast()
 
   const handleSubmit = (data) => {
     api.post("/tasks", data).then((res) => {
       if (res.status === 201) {
-        setToast({ message: "Task created successfully!", type: "success" })
+        showToast("Task created successfully!", "success")
         router.visit("/tasks")
-
-        return
       }
     })
   }

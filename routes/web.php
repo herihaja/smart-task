@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TaskAIController;
 use App\Http\Controllers\TaskController as ApiTaskController;
 use App\Http\Controllers\Web\TaskController;
 use Illuminate\Foundation\Application;
@@ -43,6 +44,7 @@ Route::middleware(['auth'])->get('/api/debug-auth', function (\Illuminate\Http\R
 
 Route::prefix('api/v0')->middleware('auth:sanctum')->group(function () {
     Route::apiResource('tasks', ApiTaskController::class);
+    Route::post('/tasks/ai/infer-score', [TaskAIController::class, 'inferScore'])->middleware('throttle:10,1');
 });
 
 require __DIR__.'/auth.php';

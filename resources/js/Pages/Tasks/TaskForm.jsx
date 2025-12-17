@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Link } from "@inertiajs/react"
 import api from "@/axios"
 import { router } from "@inertiajs/react"
+import { useToast } from "@/Components/ToastProvider"
 
 export default function TaskForm({ onSubmit, task = {}, errors = {}, isEdit = false }) {
   const [title, setTitle] = useState(task.title || "")
@@ -11,6 +12,8 @@ export default function TaskForm({ onSubmit, task = {}, errors = {}, isEdit = fa
   const [effort, setEffort] = useState(task.effort || "medium")
   const [dueDate, setDueDate] = useState(task.due_date || "")
   const [completed, setCompleted] = useState(task.completed || false)
+  const [toast, setToast] = useState(null)
+  const { showToast } = useToast()
 
   function handleSubmit(e) {
     e.preventDefault()
@@ -31,6 +34,22 @@ export default function TaskForm({ onSubmit, task = {}, errors = {}, isEdit = fa
         router.visit("/tasks")
       })
     }
+  }
+
+  const inferAI = (e) => {
+    api.post(`/tasks/ai/infer-score`, { title, description }).then((res) => {
+      if (res?.data?.errors) return
+
+      if (res.data.ai_used) {
+        showToast("Task attributes inferred by AI", "success")
+        const inferred = res.data
+        setUrgency(inferred.urgency || urgency)
+        setImpact(inferred.impact || impact)
+        setEffort(inferred.effort || effort)
+      } else {
+        showToast("AI inference unavailable.", "info")
+      }
+    })
   }
 
   return (
@@ -133,13 +152,23 @@ export default function TaskForm({ onSubmit, task = {}, errors = {}, isEdit = fa
         </button>
 
         {isEdit && (
-          <button
-            type="button"
-            className="px-4 py-2 bg-red-600 text-white rounded"
-            onClick={deleteTask}
-          >
-            Delete
-          </button>
+          <>
+            <button
+              type="button"
+              className="px-4 py-2 bg-red-600 text-white rounded"
+              onClick={deleteTask}
+            >
+              Delete
+            </button>
+
+            <button
+              type="button"
+              className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded"
+              onClick={inferAI}
+            >
+              ✨ Infer with AI
+            </button>
+          </>
         )}
         <Link href="/tasks" className="text-gray-600 hover:underline">
           Cancel

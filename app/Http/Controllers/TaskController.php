@@ -8,11 +8,14 @@ use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
 use App\Services\TaskFilterService;
+use App\Services\TaskGlobalService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class TaskController extends Controller
 {
     use AuthorizesRequests;
+
+    public function __construct(private TaskGlobalService $service) {}
 
     // List tasks (ordered by smart score DESC)
     public function index(TaskIndexRequest $request, TaskFilterService $filterService)
@@ -48,7 +51,7 @@ class TaskController extends Controller
 
         $data['user_id'] = $request->user()->id;
 
-        $data['score'] = $this->computeScore(
+        $data['score'] = $this->service->computeScore(
             $data['urgency'],
             $data['impact'],
             $data['effort']
@@ -88,7 +91,7 @@ class TaskController extends Controller
             $impact = $data['impact'] ?? $task->impact;
             $effort = $data['effort'] ?? $task->effort;
 
-            $data['score'] = $this->computeScore($urgency, $impact, $effort);
+            $data['score'] = $this->service->computeScore($urgency, $impact, $effort);
         }
 
         $task->update($data);
@@ -106,15 +109,5 @@ class TaskController extends Controller
         $task->delete();
 
         return response()->json(['message' => 'Task deleted']);
-    }
-
-    private function computeScore($urgency, $impact, $effort)
-    {
-        $map = ['low' => 1, 'medium' => 2, 'high' => 3];
-
-        return
-            ($map[$urgency] * 2) +
-            ($map[$impact] * 3) +
-            ((4 - $map[$effort]) * 2);
     }
 }
