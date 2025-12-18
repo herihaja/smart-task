@@ -81,7 +81,7 @@ export default function Index() {
             {isFetchingNextPage && <div className="py-4 text-center">Loading more…</div>}
             <div ref={loaderRef} className="h-14"></div>
             {!hasNextPage && (
-              <div className="px-4 py-6 text-center text-gray-500">End of results.</div>
+              <div className="px-4 py-6 text-center text-gray-500">No more tasks to load.</div>
             )}
           </div>
         </div>

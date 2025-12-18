@@ -12,7 +12,7 @@ export default function TaskForm({ onSubmit, task = {}, errors = {}, isEdit = fa
   const [effort, setEffort] = useState(task.effort || "medium")
   const [dueDate, setDueDate] = useState(task.due_date || "")
   const [completed, setCompleted] = useState(task.completed || false)
-  const [toast, setToast] = useState(null)
+  const [isInferring, setIsInferring] = useState(false)
   const { showToast } = useToast()
 
   function handleSubmit(e) {
@@ -36,8 +36,22 @@ export default function TaskForm({ onSubmit, task = {}, errors = {}, isEdit = fa
     }
   }
 
-  const inferAI = (e) => {
-    api.post(`/tasks/ai/infer-score`, { title, description }).then((res) => {
+  const inferAI = async (e) => {
+    if (isInferring) {
+      showToast("AI inference is already in progress. Please wait.", "info")
+      return
+    }
+
+    if (title.trim() === "" || description.trim() === "") {
+      showToast("Title and Description are required for AI inference.", "error")
+      return
+    }
+
+    setIsInferring(true)
+
+    try {
+      const res = await api.post(`/tasks/ai/infer-score`, { title, description })
+
       if (res?.data?.errors) return
 
       if (res.data.ai_used) {
@@ -49,7 +63,11 @@ export default function TaskForm({ onSubmit, task = {}, errors = {}, isEdit = fa
       } else {
         showToast("AI inference unavailable.", "info")
       }
-    })
+    } catch (err) {
+      showToast("AI inference failed. Please try again.", "error")
+    } finally {
+      setIsInferring(false)
+    }
   }
 
   return (
@@ -152,24 +170,51 @@ export default function TaskForm({ onSubmit, task = {}, errors = {}, isEdit = fa
         </button>
 
         {isEdit && (
-          <>
-            <button
-              type="button"
-              className="px-4 py-2 bg-red-600 text-white rounded"
-              onClick={deleteTask}
-            >
-              Delete
-            </button>
-
-            <button
-              type="button"
-              className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded"
-              onClick={inferAI}
-            >
-              ✨ Infer with AI
-            </button>
-          </>
+          <button
+            type="button"
+            className="px-4 py-2 bg-red-600 text-white rounded"
+            onClick={deleteTask}
+          >
+            Delete
+          </button>
         )}
+
+        <button
+          type="button"
+          onClick={inferAI}
+          className={`px-4 py-2 rounded text-white flex items-center gap-2
+    ${isInferring ? "bg-indigo-400 cursor-not-allowed" : "bg-indigo-600 hover:bg-indigo-700"}
+  `}
+        >
+          {isInferring ? (
+            <>
+              <svg
+                className="animate-spin h-4 w-4 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                />
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                />
+              </svg>
+              Inferring…
+            </>
+          ) : (
+            "✨ Infer with AI"
+          )}
+        </button>
+
         <Link href="/tasks" className="text-gray-600 hover:underline">
           Cancel
         </Link>
