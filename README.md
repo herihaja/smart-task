@@ -1,21 +1,31 @@
 # Smart-Task
 
-Smart-Task is a productivity app that automatically prioritizes your tasks based on urgency, impact, deadlines, effort, and personal energy level.  
+Smart-Task is a productivity app that automatically prioritizes your tasks based on urgency, impact, deadlines, and effort.  
 The goal is simple: help users instantly answer **“What should I work on next?”** without overwhelm or decision fatigue.
 
 Built with a Laravel API, a modern React frontend, and a Docker-based environment that mirrors real production setups.
 
 ---
 
+## 🎥 Demo Video
+
+A short walkthrough of the application, demonstrating task management, infinite scrolling, priority scoring, and AI-assisted task analysis:
+
+▶ https://youtu.be/rL1ao_cVQik
+
+---
+
 ## 🚀 Features
 
-- **Smart task scoring** based on multiple weighted factors  
-- **Dynamic priority ranking** that updates in real time  
-- **Task attributes:** urgency, impact, effort, deadline, energy level  
-- **Clean REST API** built with Laravel  
-- **Modern React UI** designed for clarity and speed  
-- **Dockerized environment** (Laravel + MySQL + phpMyAdmin + Nginx)  
-- **Future-ready architecture:** authentication, reminders, AI insights  
+- **Smart task scoring** based on multiple weighted factors
+- **Dynamic priority ranking** that updates in real time
+- **Task attributes:** urgency, impact, effort, deadline
+- **AI-assisted task analysis** to help suggest task priorities
+- **Infinite scrolling** for efficient task browsing
+- **Clean REST API** built with Laravel
+- **Modern React UI** designed for clarity and speed
+- **Dockerized environment** (Laravel + MySQL + phpMyAdmin + Nginx)
+- **Future-ready architecture:** authentication, reminders, extended AI insights
 
 ---
 
@@ -23,31 +33,34 @@ Built with a Laravel API, a modern React frontend, and a Docker-based environmen
 
 Every task gets a **Priority Score** calculated from:
 
-- **Urgency** (how fast the task is required)  
-- **Impact** (effect on the project or life)  
-- **Deadline proximity**  
-- **Effort level**  
-- **User’s current energy/mental load**
+- **Urgency** — how fast the task needs attention
+- **Impact** — effect on the project or overall goals
+- **Effort** — estimated work required
+- **Deadline proximity** — how close the due date is
 
-You get a sorted list from **Highest Priority → Lowest Priority**, giving immediate clarity on what to tackle next.
+Tasks are then automatically sorted from **Highest Priority → Lowest Priority**, giving immediate clarity on what to tackle next.
 
 ---
 
 ## 🛠️ Tech Stack
 
 ### **Backend**
+
 - Laravel 11 (API mode)
-- MySQL 8
 - PHP 8.2
+- MySQL 8
 - Composer
 - Docker (multi-service)
 
 ### **Frontend**
+
 - React (Vite)
+- Inertia.js
 - TailwindCSS
 - Axios for API communication
 
 ### **Dev Tools**
+
 - Docker Compose
 - phpMyAdmin
 - ESLint + Prettier (optional)
@@ -57,15 +70,17 @@ You get a sorted list from **Highest Priority → Lowest Priority**, giving imme
 
 ## 🐳 Docker Setup
 
-This project runs fully in Docker.  
-Services include:
+This project runs fully in Docker.
 
-- `app` (Laravel + PHP-FPM)
-- `nginx` (serving the API)
-- `db` (MySQL)
-- `pma` (phpMyAdmin for debugging)
+### Services
 
-### Start everything:
+- `app` — Laravel + PHP-FPM
+- `nginx` — API server
+- `db` — MySQL
+- `pma` — phpMyAdmin for debugging
+
+### Start the environment
 
 ```bash
 docker-compose up -d --build
+```
