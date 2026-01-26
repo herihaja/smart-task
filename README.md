@@ -11,7 +11,7 @@ Built with a Laravel API, a modern React frontend, and a Docker-based environmen
 
 A short walkthrough of the application, demonstrating task management, infinite scrolling, priority scoring, and AI-assisted task analysis:
 
-▶ https://youtu.be/rL1ao_cVQik
+[![Smart task demo video](https://img.youtube.com/vi/rL1ao_cVQik/maxresdefault.jpg)](https://www.youtube.com/watch?v=rL1ao_cVQik)
 
 ---
 
